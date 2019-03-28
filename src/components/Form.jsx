@@ -5,73 +5,81 @@ import Button from "./Button";
 class Form extends Component {
   constructor(props) {
     super(props);
+    this.data = [];
     this.state = {
       fname: "",
       lname: "",
       email: "",
       password: "",
-      gender:"",
-      age: "",
-      genderOptions: ["male", "female", "other"]
+      gender: "male",
+      showData: false
     };
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <Input
-          handleChange={this.handleFname}
-          type={"text"}
-          title={"First Name-"}
-          name={"fname"}
-          value={this.state.fname}
-          placeholder={"Enter your First name"}
-        />
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <Input
+            handleChange={this.handleFname}
+            type={"text"}
+            title={"First Name-"}
+            name={"fname"}
+            value={this.state.fname}
+            placeholder={"Enter your First name"}
+          />
 
-        <Input
-          handleChange={this.handleLname}
-          type={"text"}
-          title={"Last Name-"}
-          name={"lname"}
-          value={this.state.lname}
-          placeholder={"Enter your Last name"}
-        />
+          <Input
+            handleChange={this.handleLname}
+            type={"text"}
+            title={"Last Name-"}
+            name={"lname"}
+            value={this.state.lname}
+            placeholder={"Enter your Last name"}
+          />
 
-        <Input
-          handleChange={this.handleEmail}
-          type={"email"}
-          title={"Enter Email-"}
-          name={"email"}
-          value={this.state.email}
-          placeholder={"Enter your Email"}
-        />
+          <Input
+            handleChange={this.handleEmail}
+            type={"email"}
+            title={"Enter Email-"}
+            name={"email"}
+            value={this.state.email}
+            placeholder={"Enter your Email"}
+          />
 
-        <Input
-          handleChange={this.handlePassword}
-          type={"password"}
-          title={"Enter Password-"}
-          name={"password"}
-          value={this.state.password}
-          placeholder={"Enter your Password"}
-        />
-         <Select
-          title={"Choose Gender-"}
-          name={"gender"}
-          options={this.state.genderOptions}
-          value={this.state.gender}
-          handleChange={this.state.handleGender}
-         
-        />
+          <Input
+            handleChange={this.handlePassword}
+            type={"password"}
+            title={"Enter Password-"}
+            name={"password"}
+            value={this.state.password}
+            placeholder={"Enter your Password"}
+          />
+          <Select
+            title={"Choose Gender-"}
+            name={"gender"}
+            value={this.state.gender}
+            handleChange={this.handleGender}
+          />
 
-        <Button type={"submit"} 
-        title={"submit"} 
-        value={"submit"}
-        handleChange={this.handleSubmit} />
+          <Button type={"submit"} title={"submit"} value={"submit"} />
 
-        <Button type={"reset"} title={"reset"} value={"submit"} />
-
-       
-      </form>
+          <p name="details">{this.state.value}</p>
+        </form>
+        <div>
+          {this.data.map((user, index) => {
+            return (
+              <p key={index}>
+                <b>S No: </b>
+                {index + 1},<b> First Name :</b> {user.fname},
+                <b> Last Name :</b> {user.lname}, <b>Email : </b>
+                {user.email}, <b>Password</b> : {user.password}, <b>Gender</b> :{" "}
+                {user.gender}
+              </p>
+            );
+          })}
+        </div>
+      </div>
     );
   }
 
@@ -95,17 +103,28 @@ class Form extends Component {
       password: event.target.value
     });
   };
- 
-  handleGender= event=>{
+
+  handleGender = event => {
+    console.log(event.target.value);
     this.setState({
       gender: event.target.value
     });
-  }
-  handleSubmit = event=> {
-    event.preventDefault();
-    console.log(this.state.gender)
+    // console.log(this.state.gender);
+  };
 
-    };
+  handleSubmit = event => {
+    event.preventDefault();
+    this.data.push(this.state);
+    console.log(this.data);
+    // this.setState({ showData: true });
+    this.setState({
+      fname: "",
+      lname: "",
+      email: "",
+      password: "",
+      gender: ""
+    });
+  };
 }
 
 export default Form;
